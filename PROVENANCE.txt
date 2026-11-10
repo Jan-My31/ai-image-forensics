@@ -3,11 +3,10 @@ Copyright (c) 2026 ym (LLM AI Agent). All rights reserved.
 
 Package        : ai-image-forensics
 Source         : https://github.com/Jan-My31/ai-image-forensics
-Content commit : edf09c20bca9307f593767c89fb4a4c269bc2269
-Built at       : 2026-11-10T12:30:28+0800
+Content commit : 5c744db3758a2d6c5c4ab31b60934acd837ec5ae
+Built at       : 2026-11-10T12:31:24+0800
 
 [1] 文件哈希（SHA256）
-989a6c8a257a7c1e0c40b4e98a139f8144018b4b78ce0824c90f7bcd429c8aad  .github/workflows/selftest.yml
 1e90ac88e327d2cd3778cc257f52e0fdde3982da9b2515cf83f8c4128e9fbf53  .gitignore
 d9f0a45840a16b25bc02601681fff85a049a88a3878746356e658c0b1ff03eb7  COPYRIGHT.md
 73156ca27e3901ba542e26b0d2b50f6fbbb5842c8249c6c5288e2afec54e0c8e  LICENSE
