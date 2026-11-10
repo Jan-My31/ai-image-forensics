@@ -72,6 +72,35 @@ curl -L -o models/commfor384/model.safetensors \
 
 不给 `--model` 就只跑前两层，纯 Python，零依赖权重。
 
+## 三个模型脚本，分工别搞错
+
+`run_commfor.py` 是通用生成图判别；另外两个是「专用件」，用错方向会得到一堆假阳性：
+
+| 脚本 | 模型 | 喂什么 | 别喂什么 |
+|---|---|---|---|
+| `run_commfor.py` | ViT-S/16 **384**（CVPR'25） | 通用生成图 | 别用 224 版，同一批图只有 3/5 |
+| `run_raiw.py` | RAIW source-classify | 想知道"哪家生成的" | 别当判别器，实测 17/17 弃权 |
+| `run_xai.py` | EfficientNetV2-B0 五分类 | **只喂人脸** | 商品图/签收图，10 张真图误判 5 张 |
+
+```bash
+python3 scripts/run_commfor.py 图.jpg --size 384 --weights ./models/commfor384/model.safetensors
+python3 scripts/run_raiw.py     图.jpg --weights ./models/raiw/multi-provider-source-v3.npz
+python3 scripts/run_xai.py    人脸.jpg --weights ./models/xai/ff_attribution.ckpt
+```
+
+三者统一查找顺序：`--weights` > 环境变量（`COMMFOR_384_WEIGHTS` / `RAIW_SOURCE_CLASSIFY_WEIGHTS` / `XAI_DEEPFAKES_CKPT`）> `models/<型号>/`。不传 `--out` 只打印，不落盘。
+
+实测复现（MacBook M1 CPU / torch 2.12）：
+
+```
+[ok] 384 版权重全部匹配（152/152）
+手机拍的破损快递箱_...png      logit= -7.3723  p_fake=0.0006      64 ms
+手机拍摄的快递员送件现场_...png logit= -6.2384  p_fake=0.0019      93 ms
+real02.jpg  -> Face2Face      p_real=0.320   ← 真图，被误判为换脸
+real06.jpg  -> NeuralTextures p_real=0.042   ← 真图，误判 0.95
+real01.jpg  -> unknown  conf=0.0007  reason=abstained  最高分=openai(-6.61)
+```
+
 ## 怎么证明它是对的
 
 ```bash
@@ -114,8 +143,10 @@ python3 tests/selftest.py
 SKILL.md                  给 agent 读的使用说明
 scripts/probe.py          三层编排 + 四档结论
 scripts/exif_c2pa.py      AIGC 标识 / C2PA / EXIF 解析
-scripts/phash.py          pHash + dHash
-scripts/run_commfor.py    像素层，独立可跑
+scripts/phash.py          pHash + dHash（纯 numpy，不依赖 OpenCV）
+scripts/run_commfor.py    通用生成图判别，独立可跑
+scripts/run_raiw.py       厂商溯源，独立可跑
+scripts/run_xai.py        换脸五分类，独立可跑
 tests/make_fixtures.py    自检素材合成
 tests/selftest.py         断言
 references/thresholds.md  所有阈值的来源与实测数字

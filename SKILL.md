@@ -47,6 +47,33 @@ python3 scripts/probe.py --dir 目录 --model <权重目录>  # 加像素层，�
 - 所以像素层的可信范围是「命中才有意义，没命中什么都说明不了」。
 - 权重不在仓库里，要先下 `OwensLab/commfor-model-384`（HF，87MB）放到 `models/commfor384/`。
 
+## 三个模型的分工（别用错）
+
+| 脚本 | 模型 | 该喂什么 | 绝不能喂什么 |
+|---|---|---|---|
+| `scripts/run_commfor.py` | ViT-S/16 384（CVPR'25 通用生成图判别） | 通用生成图，默认 `--size 384` | 别用 224 版权重，实测同一批图只有 3/5 |
+| `scripts/run_raiw.py` | RAIW source-classify（10 厂商 + unknown） | 想知道"是哪家生成的" | 别当判别器，实测 17/17 全弃权 |
+| `scripts/run_xai.py` | EfficientNetV2-B0 五分类（FF++ 换脸） | **只喂人脸图** | 商品图/签收图，实测 10 张真图误判 5 张 |
+
+```bash
+python3 scripts/run_commfor.py 图.jpg --size 384 --weights /path/model.safetensors
+python3 scripts/run_raiw.py     图.jpg --weights /path/multi-provider-source-v3.npz
+python3 scripts/run_xai.py      人脸.jpg --weights /path/ff_attribution.ckpt
+```
+
+三个脚本都支持 `--weights` 指定权重、`--out` 落盘（不给就只打印）。权重查找顺序统一为：
+`--weights` > 环境变量 > `scripts/../models/<模型名>/`。**权重不在仓库里**，得自己下：
+
+| 模型 | 来源 | 大小 |
+|---|---|---|
+| commfor384 | HF `OwensLab/commfor-model-384` | 87 MB |
+| commfor224 | HF `OwensLab/commfor-model-224` | 86 MB |
+| RAIW | HF `wiltodelta/raiw-source-classify` | 2.03 GB |
+| XAI-Deepfakes | 仓库 `model/checkpoint/ff_attribution.ckpt` | 70 MB |
+
+国内下载加镜像：`HF_ENDPOINT=https://hf-mirror.com`；大文件用 `aria2c -x16 -s16`。
+**下载不成就直说卡在哪一步**，不要用"理论上可以"替代实测结果。
+
 ## 阈值速查
 
 | 判据 | 阈值 | 依据 |
