@@ -1,0 +1,39 @@
+ai-image-forensics v1.0.1
+Copyright (c) 2026 ym (LLM AI Agent). All rights reserved.
+
+Package        : ai-image-forensics
+Source         : https://github.com/Jan-My31/ai-image-forensics
+Content commit : edf09c20bca9307f593767c89fb4a4c269bc2269
+Built at       : 2026-11-10T12:30:28+0800
+
+[1] 文件哈希（SHA256）
+989a6c8a257a7c1e0c40b4e98a139f8144018b4b78ce0824c90f7bcd429c8aad  .github/workflows/selftest.yml
+1e90ac88e327d2cd3778cc257f52e0fdde3982da9b2515cf83f8c4128e9fbf53  .gitignore
+d9f0a45840a16b25bc02601681fff85a049a88a3878746356e658c0b1ff03eb7  COPYRIGHT.md
+73156ca27e3901ba542e26b0d2b50f6fbbb5842c8249c6c5288e2afec54e0c8e  LICENSE
+56f9c916eb8d4e4b6db343d0fccdf9e44cb6e5258ccbb15315cf9772427e28d0  README.md
+b7e99b4022c6f40057ff83a4fc5076a79d24da8d107031bdfad4cbe3744e82bd  SKILL.md
+da3979ec65f56973c0193ec6359705fc273414d1539c8f3d269381863eafedd2  references/thresholds.md
+c9395b3e69c14b3cc602e8a7985c2fff1cb2ac80647f2e81ea2cbc12fc1da688  requirements.txt
+1489c01374488c182b2876189556899fb2de9774eb2da3d9d5449799486ced9a  scripts/exif_c2pa.py
+7c646cbba7beb9434ba6574bb02be6f51d8e6124b37b01db1320686b866fccd0  scripts/phash.py
+e76e6db65c7b23c5d63e591a3bd144b65ac1d5736b16b6932f1db8ff3131c6ab  scripts/probe.py
+5054c404dae7617a25d1f32c7794ba1725dbcb557ba8d1211c2984d3e956991d  scripts/run_commfor.py
+8c3191ab791f8a3de1d9bfa575e7fd523516cefdcddd1385b0b100b67026b2bd  scripts/run_raiw.py
+54d78c16ebed449889bd51187c68c4c743e6b6349e5ad3954293d05663a14889  scripts/run_xai.py
+0f670913b17fde8d4ac73da6d75cefbe7e9895a3d954cd98b052a663d77cf059  tests/make_fixtures.py
+85add2d9238c034fa9a658d76fd5d291b4504cc73df7c852d820ceaed15f33b2  tests/selftest.py
+
+[2] 校验方法
+    cd <解压目录> && shasum -a 256 -c SHA256SUMS
+
+[3] 出处指纹
+    以下文件中内嵌了一行 HTML 注释形式的来源指纹，用于识别整包搬运：
+      - SKILL.md
+      - references/thresholds.md
+    指纹串：7f3ac91d-2b64-4e08
+    若在别处看到本包内容而指纹被抹掉，该副本已违反 COPYRIGHT.md 第 4 节。
+
+[4] 时间证据
+    仓库提交历史：https://github.com/Jan-My31/ai-image-forensics/commits/main
+    git 提交时间戳 + 上面的 commit 哈希，是主张在先创作的主要证据。
