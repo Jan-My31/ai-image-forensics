@@ -1,0 +1,9 @@
+# 前两层（元数据 + 查重）只需要这两个
+Pillow>=10.0
+numpy>=1.24
+
+# 像素层（可选，用 --model 时才需要）
+# torch>=2.0
+# torchvision>=0.15
+# timm>=1.0
+# safetensors
